@@ -50,7 +50,7 @@ public class ConsoleApp {
         try {
             jsch.setKnownHosts(knownhostsFile);
         } catch (JSchException ex) {
-            Logger.getLogger(ConsoleApp.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error while trying to import kown hosts: " + ex.getMessage());
         }
 
         System.out.println("Info: Type /info to get the build version!");
