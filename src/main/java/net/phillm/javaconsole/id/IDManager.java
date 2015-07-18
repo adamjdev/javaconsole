@@ -13,7 +13,7 @@ public class IDManager {
         this.blockInfo = new HashMap<>();
         blockInfo.put("wood", "5");
         blockInfo.put("air", "0");
-        blockInfo.put("dtone", "1");
+        blockInfo.put("stone", "1");
         blockInfo.put("granite", "1:1");
         blockInfo.put("polished_granite", "1:2");
         blockInfo.put("diorite", "1:3");
