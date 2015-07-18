@@ -44,25 +44,29 @@ public class ConsoleApp {
                 System.out.println("Website: " + Website);
 
             } else if (scanner.hasNext("/help")) {
-                System.out.println("Info: Gives Info Such as Build Version, Website, and Github Link");
-                System.out.println("Website: Gives The Developers Website");
-                System.out.println("Help: Gives All Commands");
-                System.out.println("Stop: Close the console");
+                System.out.println("/Info: Gives Info Such as Build Version, Website, and Github Link");
+                System.out.println("/Website: Gives The Developers Website");
+                System.out.println("/Help: Gives All Commands");
+                System.out.println("/Connect [Host]: Open a connection to Host");
+                System.out.println("/Stop: Close the console");
 
-            } else if (scanner.hasNext("/stop")) {
+            } else if (scanner.hasNext("/stop") || scanner.hasNext("/quit") || scanner.hasNext("/exit") || scanner.hasNext("/close")) {
                 System.out.println("Stopping");
                 runLoop = false;
 
             } else if (scanner.hasNext("/connect")) {
                 String host = "";
-                            
+                String username = "";
+                String password = "";
                 String[] ssh_Parameters = scanner.nextLine().split(" ");
                 if (ssh_Parameters.length > 1) {
                     host = ssh_Parameters[1];
-                    }
-                            
-                     System.out.println(host);
-                    //System.out.println("Enter host to connect to");
+                }
+                if (host.equals("")) {
+                    System.out.println("Enter host to connect to.");
+                    host = scanner.nextLine();
+                }
+                System.out.println("Connecting to " + host + "...");
 
             } else {
                 System.out.println("Commands Available: [/Info, /Website, /Help, /Connect, /Stop]");
