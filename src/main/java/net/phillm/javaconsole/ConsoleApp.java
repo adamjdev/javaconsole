@@ -36,16 +36,15 @@ public class ConsoleApp {
         // Specifies Github Repo
         final String Github = "https://github.com/phillmac/java-console-app-test";
         //Initialize main loop
-
-        String knownhostsFile;
-        knownhostsFile = System.getProperty("user.home") + File.separator + ".ssh" + File.separator + "known_hosts";
-
         boolean runLoop;
         runLoop = true;
-
+        IDManager idManager = new IDManager();
+        String knownhostsFile;
         JSch jsch;
         Session sshSession;
+        
 
+        knownhostsFile = System.getProperty("user.home") + File.separator + ".ssh" + File.separator + "known_hosts";
         jsch = new JSch();
         try {
             jsch.setKnownHosts(knownhostsFile);
@@ -151,19 +150,18 @@ public class ConsoleApp {
                     }
                 }
             } else if(scanner.hasNext("/id")) {
-            	System.out.println("please type a block");
-            	Scanner block = new Scanner(System.in);
-            	if(block.hasNext("Wood") || block.hasNext("wood")) {
-            		System.out.println("ID: " + IDManager.Wood);
-            	} else if(block.hasNext("Air") || block.hasNext("air")) {
-            		System.out.println("ID: " + IDManager.Air);
-            	} else if(block.hasNext("Stone") || block.hasNext("stone")) {
-            		System.out.println("ID: " + IDManager.Stone);
-            	} else if(block.hasNext("Granite") || block.hasNext("granite")) {
-            		System.out.println("ID: " + IDManager.Granite);
-            	} else if(block.hasNext("Polished_Granite") || block.hasNext("polished_granite")) {
-            		System.out.println("ID: " + IDManager.Polished_Granite);
-            	}
+                String blockName = "";
+                String[] idParams = scanner.nextLine().split(" ");
+                if (idParams.length < 1) {
+                    blockName = idParams[1];
+                } else {
+                    while (blockName.equals("")){
+                    System.out.println("please type a block");
+                    blockName = scanner.nextLine();
+                }              
+                System.out.println("ID for block" + blockName + " is " + idManager.blockInfo.get(blockName));
+                }
+            	
 
             } else {
                 System.out.println("Commands Available: [/Info, /Website, /Help, /Connect, /Stop, /id]");
