@@ -29,7 +29,7 @@ public class IDManager {
         blockInfo.put("birch", "5:2");
         blockInfo.put("jungle", "5:3");
         blockInfo.put("acacia", "5:4");
-        blockInfo.put("dark_aak", "5:5");
+        blockInfo.put("dark_oak", "5:5");
         blockInfo.put("oak_sapling", "6");
         blockInfo.put("spruce_sapling", "6:1");
         blockInfo.put("birch_sapling", "6:2");
