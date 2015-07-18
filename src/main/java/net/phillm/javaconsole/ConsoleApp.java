@@ -42,7 +42,6 @@ public class ConsoleApp {
         String knownhostsFile;
         JSch jsch;
         Session sshSession;
-        
 
         knownhostsFile = System.getProperty("user.home") + File.separator + ".ssh" + File.separator + "known_hosts";
         jsch = new JSch();
@@ -124,9 +123,9 @@ public class ConsoleApp {
                         sessionIsConnected = sshSession.isConnected();
                     } catch (JSchException ex) {
                         if (ex.getMessage().contains("timeout: socket is not established")) {
-                            portTryCount++;                            
-                        } else if(ex.getMessage().contains("Connection refused: connect")) {
-                             portTryCount++;
+                            portTryCount++;
+                        } else if (ex.getMessage().contains("Connection refused: connect")) {
+                            portTryCount++;
                         } else if (ex.getMessage().contains("UnknownHostKey")) {
                             String response;
 
@@ -149,19 +148,18 @@ public class ConsoleApp {
                         }
                     }
                 }
-            } else if(scanner.hasNext("/id")) {
+            } else if (scanner.hasNext("/id")) {
                 String blockName = "";
                 String[] idParams = scanner.nextLine().split(" ");
                 if (idParams.length > 1) {
                     blockName = idParams[1];
                 } else {
-                    while (blockName.equals("")){
-                    System.out.println("please type a block");
-                    blockName = scanner.nextLine();
+                    while (blockName.equals("")) {
+                        System.out.println("please type a block");
+                        blockName = scanner.nextLine();
+                    }
                 }
                 System.out.println("ID for block " + blockName + " is " + idManager.blockInfo.get(blockName.toLowerCase()));
-                }
-            	
 
             } else {
                 System.out.println("Commands Available: [/Info, /Website, /Help, /Connect, /Stop, /id]");
