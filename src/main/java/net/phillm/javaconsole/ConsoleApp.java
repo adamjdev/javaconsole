@@ -152,7 +152,7 @@ public class ConsoleApp {
             } else if(scanner.hasNext("/id")) {
                 String blockName = "";
                 String[] idParams = scanner.nextLine().split(" ");
-                if (idParams.length < 1) {
+                if (idParams.length > 1) {
                     blockName = idParams[1];
                 } else {
                     while (blockName.equals("")){
