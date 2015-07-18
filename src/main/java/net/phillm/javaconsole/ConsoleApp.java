@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main.java.net.phillm.javaconsole;
+package net.phillm.javaconsole;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
