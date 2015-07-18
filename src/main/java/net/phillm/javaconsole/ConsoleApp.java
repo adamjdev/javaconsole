@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.phillm.javaconsole;
+package main.java.net.phillm.javaconsole;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
@@ -15,9 +15,12 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.phillm.javaconsole.id.IDManager;
+
 /**
  *
  * @author Phillip
+ * @author Ethan
  */
 public class ConsoleApp {
 
@@ -147,9 +150,23 @@ public class ConsoleApp {
                         }
                     }
                 }
+            } else if(scanner.hasNext("/id")) {
+            	System.out.println("please type a block");
+            	Scanner block = new Scanner(System.in);
+            	if(block.hasNext("Wood") || block.hasNext("wood")) {
+            		System.out.println("ID: " + IDManager.Wood);
+            	} else if(block.hasNext("Air") || block.hasNext("air")) {
+            		System.out.println("ID: " + IDManager.Air);
+            	} else if(block.hasNext("Stone") || block.hasNext("stone")) {
+            		System.out.println("ID: " + IDManager.Stone);
+            	} else if(block.hasNext("Granite") || block.hasNext("granite")) {
+            		System.out.println("ID: " + IDManager.Granite);
+            	} else if(block.hasNext("Polished_Granite") || block.hasNext("polished_granite")) {
+            		System.out.println("ID: " + IDManager.Polished_Granite);
+            	}
 
             } else {
-                System.out.println("Commands Available: [/Info, /Website, /Help, /Connect, /Stop]");
+                System.out.println("Commands Available: [/Info, /Website, /Help, /Connect, /Stop, /id]");
             }
         }
     }
