@@ -1,4 +1,4 @@
-package net.phillm.javaConsole.id;
+package net.phillm.javaconsole.id;
 
 public class IDManager {
 	
