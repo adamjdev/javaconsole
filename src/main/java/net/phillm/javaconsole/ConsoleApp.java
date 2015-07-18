@@ -158,8 +158,8 @@ public class ConsoleApp {
                     while (blockName.equals("")){
                     System.out.println("please type a block");
                     blockName = scanner.nextLine();
-                }              
-                System.out.println("ID for block" + blockName + " is " + idManager.blockInfo.get(blockName));
+                }
+                System.out.println("ID for block " + blockName + " is " + idManager.blockInfo.get(blockName.toLowerCase()));
                 }
             	
 
