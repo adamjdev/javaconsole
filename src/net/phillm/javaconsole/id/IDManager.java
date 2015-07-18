@@ -1,0 +1,51 @@
+package net.phillm.javaconsole.id;
+
+public class IDManager {
+	
+	public static int Wood = 5;
+	public static int Air = 0;
+	public static int Stone = 1;
+	public static String Granite = "1:1";
+	public static String Polished_Granite = "1:2";
+	public static String Diorite = "1:3";
+	public static String Polished_Diorite = "1:4";
+	public static String Andesite = "1:5";
+	public static String Polished_Andesite = "1:6";
+	public static int Grass = 2;
+	public static int Dirt = 3;
+	public static String Coarse_Dirt = "3:1";
+	public static String Podzol = "3:2";
+	public static int Cobblestone = 4;
+	public static String Spruce = "5:1";
+	public static String Birch = "5:2";
+	public static String Jungle = "5:3";
+	public static String Acacia = "5:4";
+	public static String Dark_Oak = "5:5";
+	public static int Oak_Sapling = 6;
+	public static String Spruce_Sapling = "6:1";
+	public static String Birch_Sapling = "6:2";
+	public static String Jungle_Sapling = "6:3";
+	public static String Acacia_Sapling = "6:4";
+	public static String Dark_Oak_Sapling = "6:5";
+	public static int Bedrock = 7;
+	public static int Flowing_Water = 8;
+	public static int Still_Water = 9;
+	public static int Flowing_Lava = 10;
+	public static int Still_Lava = 11;
+	public static int Sand = 12;
+	public static String Red_Sand = "12:1";
+	public static int Gravel = 13;
+	public static int Gold_Ore = 14;
+	public static int Iron_Ore = 15;
+	public static int Coal_Ore = 16;
+	public static int Oak_Wood = 17;
+	public static String Spruce_Wood = "17:1";
+	public static String Birch_Wood = "17:2";
+	public static String Jungle_Wood = "17:3";
+	public static int Oak_Leaves = 18;
+	public static String Spruce_Leaves = "18:1";
+	public static String Birch_Leaves = "18:2";
+	public static String Jungle_Leaves = "18:3";
+	public static int Sponge = 19;
+	public static String Wet_Sponge = "19:1";
+}
