@@ -48,11 +48,12 @@ public class ConsoleApp {
             System.out.println("Error while trying to import kown hosts: " + ex.getMessage());
         }
         Scanner scanner = new Scanner(System.in);
-        String currentCommand = "";
+        String currentCommand;
         System.out.println("Info: Type /info to get the build version!");
         System.out.println("Info: Type /help to get a list of availble commands!");
         while (runLoop) { //loop untill /stop command
             currentCommand = scanner.nextLine().toLowerCase();
+
             if (currentCommand.contains("/info")) {
                 System.out.println("Build Version: " + version);
                 System.out.println("Website: " + website);
@@ -73,8 +74,7 @@ public class ConsoleApp {
                 System.out.println("Stopping");
                 runLoop = false;
 
-            } else if (currentCommand.contains("/connect")) {
-
+            } else if (currentCommand.contains("/connect")) {          
                 String host = "";
                 String username = "";
                 String password = "";
@@ -134,6 +134,7 @@ public class ConsoleApp {
                             switch (response.toLowerCase()) {
                                 case "n":
                                     continueTrying = false;
+                                    System.out.println("Aborting...");
                                     break;
                                 case "y":
                                     break;
@@ -147,6 +148,10 @@ public class ConsoleApp {
                         }
                     }
                 }
+                if (sessionIsConnected){
+                System.out.println("Connected!");
+                }
+                
             } else if (currentCommand.contains("/id")) {
                 String blockName = "";
                 String[] idParams = currentCommand.split(" ");
