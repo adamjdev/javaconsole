@@ -27,11 +27,11 @@ public class ConsoleApp {
     public static void main(String[] args) {
         // TODO code application logic here
         // Specifies Version
-        final String Version = "1.0.0.001";
+        final String version = "1.0.0.001";
         // Specifies Website
-        final String Website = "www.phillm.net";
+        final String website = "www.phillm.net";
         // Specifies Github Repo
-        final String Github = "https://github.com/phillmac/java-console-app-test";
+        final String github = "https://github.com/phillmac/java-console-app-test";
         //Initialize main loop
         boolean runLoop;
         runLoop = true;
@@ -54,12 +54,12 @@ public class ConsoleApp {
         while (runLoop) { //loop untill /stop command
             currentCommand = scanner.nextLine().toLowerCase();
             if (currentCommand.contains("/info")) {
-                System.out.println("Build Version: " + Version);
-                System.out.println("Website: " + Website);
-                System.out.println("View on Github: " + Github);
+                System.out.println("Build Version: " + version);
+                System.out.println("Website: " + website);
+                System.out.println("View on Github: " + github);
 
-            } else if (currentCommand.contains("/website")) {
-                System.out.println("Website: " + Website);
+            } else if (currentCommand.contains("/website") || currentCommand.contains("/site")) {
+                System.out.println("Website: " + website);
 
             } else if (currentCommand.contains("/help")) {
                 System.out.println("/Info: Gives Info Such as Build Version, Website, and Github Link");
