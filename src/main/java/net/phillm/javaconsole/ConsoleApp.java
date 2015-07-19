@@ -12,9 +12,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import net.phillm.javaconsole.id.IDManager;
 
 /**
@@ -50,31 +47,33 @@ public class ConsoleApp {
         } catch (JSchException ex) {
             System.out.println("Error while trying to import kown hosts: " + ex.getMessage());
         }
-
+        Scanner scanner = new Scanner(System.in);
+        String currentCommand = "";
         System.out.println("Info: Type /info to get the build version!");
         System.out.println("Info: Type /help to get a list of availble commands!");
         while (runLoop) { //loop untill /stop command
-            Scanner scanner = new Scanner(System.in);
-            if (scanner.hasNext("/info")) {
+            currentCommand = scanner.nextLine();
+            if (currentCommand.contains("/info")) {
                 System.out.println("Build Version: " + Version);
                 System.out.println("Website: " + Website);
                 System.out.println("View on Github: " + Github);
 
-            } else if (scanner.hasNext("/website")) {
+            } else if (currentCommand.contains("/website")) {
                 System.out.println("Website: " + Website);
 
-            } else if (scanner.hasNext("/help")) {
+            } else if (currentCommand.contains("/help")) {
                 System.out.println("/Info: Gives Info Such as Build Version, Website, and Github Link");
                 System.out.println("/Website: Gives The Developers Website");
                 System.out.println("/Help: Gives All Commands");
                 System.out.println("/Connect [Host]: Open a connection to Host");
+                System.out.println("/Id: get a block id number from its name");
                 System.out.println("/Stop: Close the console");
 
-            } else if (scanner.hasNext("/stop") || scanner.hasNext("/quit") || scanner.hasNext("/exit") || scanner.hasNext("/close")) {
+            } else if (currentCommand.contains("/stop") || currentCommand.contains("/quit") || currentCommand.contains("/exit") || currentCommand.contains("/close")) {
                 System.out.println("Stopping");
                 runLoop = false;
 
-            } else if (scanner.hasNext("/connect")) {
+            } else if (currentCommand.contains("/connect")) {
 
                 String host = "";
                 String username = "";
@@ -85,7 +84,7 @@ public class ConsoleApp {
                 ports.add(22);
                 ports.add(35681);
 
-                String[] ssh_Parameters = scanner.nextLine().split(" ");
+                String[] ssh_Parameters = currentCommand.split(" ");
                 if (ssh_Parameters.length > 1) {
                     host = ssh_Parameters[1];
                 }
@@ -148,9 +147,9 @@ public class ConsoleApp {
                         }
                     }
                 }
-            } else if (scanner.hasNext("/id")) {
+            } else if (currentCommand.contains("/id")) {
                 String blockName = "";
-                String[] idParams = scanner.nextLine().split(" ");
+                String[] idParams = currentCommand.split(" ");
                 if (idParams.length > 1) {
                     blockName = idParams[1];
                 } else {
