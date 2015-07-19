@@ -5,14 +5,25 @@
  */
 package net.phillm.javaconsole;
 
+import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import net.phillm.javaconsole.id.IDManager;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -21,25 +32,32 @@ import net.phillm.javaconsole.id.IDManager;
  */
 public class ConsoleApp {
 
+    // Specifies Version
+    final String version = "1.0.0.001";
+    // Specifies Website
+    final String website = "www.phillm.net";
+    // Specifies Github Repo
+    final String github = "https://github.com/phillmac/java-console-app-test";
+
+    JSch jsch;
+    Session sshSession = null;
+    Channel sshShell = null;
+    PrintStream sshCommandStream = null;
+    BufferedReader sshResponseBuffer = null;
+    Map<String, String> remoteCmds = new HashMap();
+    static IDManager idManager = new IDManager();
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public void main(String[] args) {
         // TODO code application logic here
-        // Specifies Version
-        final String version = "1.0.0.001";
-        // Specifies Website
-        final String website = "www.phillm.net";
-        // Specifies Github Repo
-        final String github = "https://github.com/phillmac/java-console-app-test";
+
         //Initialize main loop
         boolean runLoop;
         runLoop = true;
-        IDManager idManager = new IDManager();
-        String knownhostsFile;
-        JSch jsch;
-        Session sshSession;
 
+        String knownhostsFile;
         knownhostsFile = System.getProperty("user.home") + File.separator + ".ssh" + File.separator + "known_hosts";
         jsch = new JSch();
         try {
@@ -47,12 +65,20 @@ public class ConsoleApp {
         } catch (JSchException ex) {
             System.out.println("Error while trying to import kown hosts: " + ex.getMessage());
         }
+
+        remoteCmds.put("cd", "cd");
+        remoteCmds.put("ls", "ls");
+        remoteCmds.put("ping", "ping");
+
         Scanner scanner = new Scanner(System.in);
-        String currentCommand = "";
+        String currentCommand;
+
         System.out.println("Info: Type /info to get the build version!");
         System.out.println("Info: Type /help to get a list of availble commands!");
+
         while (runLoop) { //loop untill /stop command
             currentCommand = scanner.nextLine().toLowerCase();
+
             if (currentCommand.contains("/info")) {
                 System.out.println("Build Version: " + version);
                 System.out.println("Website: " + website);
@@ -74,7 +100,6 @@ public class ConsoleApp {
                 runLoop = false;
 
             } else if (currentCommand.contains("/connect")) {
-
                 String host = "";
                 String username = "";
                 String password = "";
@@ -134,6 +159,7 @@ public class ConsoleApp {
                             switch (response.toLowerCase()) {
                                 case "n":
                                     continueTrying = false;
+                                    System.out.println("Aborting...");
                                     break;
                                 case "y":
                                     break;
@@ -142,11 +168,52 @@ public class ConsoleApp {
                                     break;
                             }
 
+                        } else if (ex.getMessage().contains("Auth fail")) {
+                            System.out.println("Could not Authenticate. Check the username and password.");
+                            continueTrying = false;
                         } else {
                             System.out.println("Could not connect: " + ex.getMessage());
                         }
                     }
                 }
+
+                if (sessionIsConnected & sshSession != null) {
+
+                    try {
+                        sshShell = sshSession.openChannel("shell");
+
+                    } catch (JSchException ex) {
+                        System.out.println("Error while obtaining shell: " + ex.getMessage());
+                    }
+                    if (sshShell != null) {
+                        try {
+                            sshShell.connect();
+                        } catch (JSchException ex) {
+                            System.out.println("Error while connecting shell: " + ex.getMessage());
+                        }
+                        if (sshShell.isConnected()) {
+                            System.out.println("Connected!");
+                            OutputStream sshCommandOutStream;
+                            sshCommandOutStream = null;
+                            InputStream sshResponseStream;
+                            sshResponseStream = null;
+                            try {
+                                sshCommandOutStream = sshShell.getOutputStream();
+                                sshResponseStream = sshShell.getInputStream();
+                            } catch (IOException ex) {
+                                System.out.println("Error while seting up shell io streams: " + ex.getMessage());
+                            }
+                            if (sshCommandOutStream != null) {
+                                sshCommandStream = new PrintStream(sshCommandOutStream, true);
+                            }
+                            if (sshResponseStream != null) {
+                                sshResponseBuffer = new BufferedReader(new InputStreamReader(sshResponseStream));
+
+                            }
+                        }
+                    }
+                }
+
             } else if (currentCommand.contains("/id")) {
                 String blockName = "";
                 String[] idParams = currentCommand.split(" ");
@@ -164,6 +231,45 @@ public class ConsoleApp {
                 System.out.println("Commands Available: [/Info, /Website, /Help, /Connect, /Stop, /Id]");
             }
         }
+        if (sshShell != null) {
+            if (sshShell.isConnected()) {
+                sshShell.disconnect();
+            }
+        }
+        if (sshSession != null) {
+            if (sshSession.isConnected()) {
+                sshSession.disconnect();
+            }
+        }
     }
 
+    public List remoteCMD(String remoteCommand) throws JSchException {
+        List<String> cmdParams = Arrays.asList(remoteCommand.split(" "));
+        List<String> returnVal = new ArrayList();
+        String firstParam = cmdParams.get(1);
+        if (remoteCmds.containsKey(firstParam)) {
+            String responseLine;
+            String rebuiltCMD;
+
+            cmdParams.remove(1);
+            rebuiltCMD = remoteCmds.get(firstParam) + StringUtils.join(cmdParams, " ");
+            if (sshShell != null & sshCommandStream != null & sshResponseBuffer != null)  {
+            if (sshShell.isConnected()); {
+                    sshCommandStream.println(rebuiltCMD);
+                    try {
+                        while ((responseLine = sshResponseBuffer.readLine()) != null) {
+                            returnVal.add(responseLine);
+                        }
+                    } catch (IOException ex) {
+                        System.out.println("Error while reading response from shell: " + ex.getMessage());
+                    }
+                }
+            }
+
+        } else {
+            throw new JSchException(firstParam + "Is not valid");
+        }
+        return returnVal;
+    }
+    //public 
 }
