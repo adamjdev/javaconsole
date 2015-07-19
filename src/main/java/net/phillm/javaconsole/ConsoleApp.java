@@ -52,7 +52,7 @@ public class ConsoleApp {
         System.out.println("Info: Type /info to get the build version!");
         System.out.println("Info: Type /help to get a list of availble commands!");
         while (runLoop) { //loop untill /stop command
-            currentCommand = scanner.nextLine();
+            currentCommand = scanner.nextLine().toLowerCase();
             if (currentCommand.contains("/info")) {
                 System.out.println("Build Version: " + Version);
                 System.out.println("Website: " + Website);
@@ -161,7 +161,7 @@ public class ConsoleApp {
                 System.out.println("ID for block " + blockName + " is " + idManager.blockInfo.get(blockName.toLowerCase()));
 
             } else {
-                System.out.println("Commands Available: [/Info, /Website, /Help, /Connect, /Stop, /id]");
+                System.out.println("Commands Available: [/Info, /Website, /Help, /Connect, /Stop, /Id]");
             }
         }
     }
